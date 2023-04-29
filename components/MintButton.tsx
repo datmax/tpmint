@@ -7,6 +7,7 @@ import {
   useContractRead,
   useContractWrite,
   useAccount,
+  useBalance,
 } from 'wagmi';
 import nft from '@/contracts/nft';
 import MintedModal from './MintedModal';
@@ -14,6 +15,9 @@ import { ethers } from 'ethers';
 
 export default function MintButton() {
   const { address } = useAccount();
+  const { data: balance, isLoading: isBalanceLoading } = useBalance({
+    address: address,
+  });
   const [showModal, setShowModal] = useState(false);
   const [amount, setAmount] = useState(0);
   const [isMinting, setIsMinting] = useState(false);
@@ -62,7 +66,7 @@ export default function MintButton() {
   return (
     <div>
       <MintedModal open={showModal} setOpen={setShowModal} />
-      <div className="grid grid-cols-3 justify-center items-center">
+      <div className="grid grid-cols-3 justify-center items-center gap-x-10">
         <div
           className="flex items-center justify-center"
           onClick={() => setAmount(amount > 1 ? amount - 1 : 0)}
@@ -98,8 +102,12 @@ export default function MintButton() {
         </div>
       </div>
 
-      {!isMinting && (
+      {!isMinting && !isBalanceLoading && (
         <button
+          disabled={
+            (balance?.formatted as unknown as number) < amount * 0.169 ||
+            amount === 0
+          }
           className="mx-auto flex mt-10 items-center justify-center border border-white px-8 w-48 h-10 rounded-lg hover:bg-white hover:text-black transition-all ease-in"
           onClick={() => mint()}
         >
