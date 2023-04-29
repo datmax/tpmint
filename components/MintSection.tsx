@@ -48,7 +48,7 @@ export default function MintSection() {
         </>
       )}
       {!address && (
-        <div className="w-full flex justify-center">
+        <div className="w-full flex justify-center pt-40">
           <ConnectButton />
         </div>
       )}
