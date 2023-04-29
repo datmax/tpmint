@@ -120,7 +120,7 @@ export default function Home() {
             {isPaused && <div>Minting is paused.</div>}
           </>
         )}
-        {!dataReady && <div>Loading...</div>}
+        {!dataReady && <div className="pt-20 animate-pulse">Loading...</div>}
       </div>
     </main>
   );
