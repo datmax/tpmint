@@ -24,7 +24,7 @@ export default function MintButton() {
   const [amount, setAmount] = useState(0);
   const [isMinting, setIsMinting] = useState(false);
   const [parsedCost, setParsedCost] = useState(0);
-
+  const [alreadySet, setAlreadySet] = useState(false);
   const {
     data: cost,
     isError: costError,
@@ -56,7 +56,7 @@ export default function MintButton() {
     overrides: {
       value: ethers.utils.parseEther(parsedCost * amount + ''),
     },
-    enabled: true,
+    enabled: false,
     onSuccess(data) {
       setShowModal(true);
     },
@@ -75,9 +75,16 @@ export default function MintButton() {
     hash: output?.hash,
   });
 
+  useEffect(() => {
+    if (txData && !alreadySet) {
+      setAlreadySet(true);
+      setShowModal(true);
+    }
+  }, [txData, alreadySet]);
+
   return (
     <div>
-      <MintedModal open={txData ? true : false} setOpen={setShowModal} />
+      <MintedModal open={showModal} setOpen={setShowModal} />
       <div className="grid grid-cols-3 justify-center items-center gap-x-10">
         <div
           className="flex items-center justify-center"
