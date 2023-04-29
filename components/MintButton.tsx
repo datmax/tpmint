@@ -23,6 +23,7 @@ export default function MintButton() {
   const [showModal, setShowModal] = useState(false);
   const [amount, setAmount] = useState(0);
   const [isMinting, setIsMinting] = useState(false);
+  const [parsedCost, setParsedCost] = useState(0);
 
   const {
     data: cost,
@@ -34,15 +35,26 @@ export default function MintButton() {
     functionName: 'cost',
   });
 
+  useEffect(() => {
+    if (costLoading) {
+      return;
+    }
+    if (costError) {
+      return;
+    }
+    if (!cost) {
+      return;
+    }
+    setParsedCost((cost as number) / Math.pow(10, 18));
+  }, [costLoading, costError, cost]);
+
   const { config } = usePrepareContractWrite({
     address: nft.address as `0x${string}`,
     abi: nft.abi,
     functionName: 'mint',
     args: [amount],
     overrides: {
-      value: ethers.utils.parseEther(
-        ((cost as number) || 1 / Math.pow(10, 18)) * amount + ''
-      ),
+      value: ethers.utils.parseEther(parsedCost * amount + ''),
     },
     enabled: false,
     onSuccess(data) {
