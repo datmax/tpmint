@@ -44,7 +44,7 @@ export default function Home() {
           variants={titleAnim}
           initial="initial"
           animate="animate"
-          className="font-bold lg:text-5xl"
+          className="font-light lg:text-5xl"
         >
           TOKEN PROPHET ALPHA PASS
         </motion.h1>
