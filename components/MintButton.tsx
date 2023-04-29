@@ -47,12 +47,12 @@ export default function MintButton() {
     address: nft.address as `0x${string}`,
     abi: nft.abi,
     functionName: 'mint',
-    overrides: {
+    /*  overrides: {
       value: ethers.utils.parseUnits(
         (amount * (cost as number)).toString(),
         'wei'
       ),
-    },
+    },*/
     onSuccess(data) {
       setShowModal(true);
     },
@@ -80,9 +80,11 @@ export default function MintButton() {
 
         <div className="font-black justify-center flex flex-col items-center">
           <h1>{amount}</h1>
-          <p className=" text-xs pt-4 text-white/50">
-            {(((cost as number) / Math.pow(10, 14)) * amount).toFixed(4)}
-          </p>
+          {!costLoading && (
+            <p className=" text-xs pt-4 text-white/50">
+              {(((cost as number) / Math.pow(10, 14)) * amount).toFixed(4)}
+            </p>
+          )}
         </div>
         <motion.div
           whileHover={{ scale: 1.2 }}
