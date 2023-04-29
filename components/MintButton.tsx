@@ -56,7 +56,7 @@ export default function MintButton() {
     overrides: {
       value: ethers.utils.parseEther(parsedCost * amount + ''),
     },
-    enabled: false,
+    enabled: true,
     onSuccess(data) {
       setShowModal(true);
     },
@@ -95,8 +95,8 @@ export default function MintButton() {
         <div className="font-black justify-center flex flex-col items-center">
           <h1>{amount}</h1>
           {!costLoading && (
-            <p className=" text-xs pt-4 text-white/50">
-              {((cost as number) / Math.pow(10, 18)) * amount} ETH + fees
+            <p className=" text-xs pt-4 text-white/50 text-center">
+              {parsedCost * amount} ETH + fees
             </p>
           )}
         </div>
@@ -117,7 +117,7 @@ export default function MintButton() {
       {!isLoading && !isBalanceLoading && (
         <button
           disabled={
-            (balance?.formatted as unknown as number) < amount * 0.169 ||
+            (balance?.formatted as unknown as number) < amount * parsedCost ||
             amount === 0
           }
           className="mx-auto flex mt-10 items-center justify-center border border-white px-8 w-48 h-10 rounded-lg hover:bg-white hover:text-black transition-all ease-in"
