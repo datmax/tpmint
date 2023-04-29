@@ -41,7 +41,7 @@ export default function MintButton() {
     args: [amount],
     overrides: {
       value: ethers.utils.parseEther(
-        ((cost as number) / Math.pow(10, 18)) * amount + ''
+        ((cost as number) || 1 / Math.pow(10, 18)) * amount + ''
       ),
     },
     enabled: false,
