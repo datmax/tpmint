@@ -6,24 +6,17 @@ import {
   usePrepareContractWrite,
   useContractRead,
   useContractWrite,
+  useAccount,
 } from 'wagmi';
 import nft from '@/contracts/nft';
 import MintedModal from './MintedModal';
 import { ethers } from 'ethers';
 
 export default function MintButton() {
-  const [showModal, setShowModal] = useState(true);
+  const { address } = useAccount();
+  const [showModal, setShowModal] = useState(false);
   const [amount, setAmount] = useState(0);
   const [isMinting, setIsMinting] = useState(false);
-  const {
-    data: isPaused,
-    isError: isErrorPaused,
-    isLoading,
-  } = useContractRead({
-    address: nft.address as `0x${string}`,
-    abi: nft.abi,
-    functionName: 'paused',
-  });
 
   //TODO: CHECK COST DECIMALS(CURRENTLY 14)
   const {
@@ -36,25 +29,27 @@ export default function MintButton() {
     functionName: 'cost',
   });
 
-  //TODO: CHANGE STUFF HERE
-  const mint = () => {
-    write?.();
+  const mint = async () => {
     setIsMinting(true);
+    write?.();
   };
 
-  //have to fix this
   const { config } = usePrepareContractWrite({
     address: nft.address as `0x${string}`,
     abi: nft.abi,
     functionName: 'mint',
-    /*  overrides: {
-      value: ethers.utils.parseUnits(
-        (amount * (cost as number)).toString(),
-        'wei'
-      ),
-    },*/
+    args: [amount],
+    overrides: {
+      value: ethers.utils.parseEther((0.169 * amount).toString()),
+    },
+    enabled: false,
+    onError(error) {
+      console.log('Error while preparing tx: ', error);
+      setIsMinting(false);
+    },
     onSuccess(data) {
       setShowModal(true);
+      setIsMinting(false);
     },
   });
   const {
@@ -68,15 +63,18 @@ export default function MintButton() {
     <div>
       <MintedModal open={showModal} setOpen={setShowModal} />
       <div className="grid grid-cols-3 justify-center items-center">
-        <motion.div
-          whileHover={{ scale: 1.2 }}
+        <div
           className="flex items-center justify-center"
           onClick={() => setAmount(amount > 1 ? amount - 1 : 0)}
         >
-          <button className="flex justify-center items-center">
-            <AiOutlineMinus size={24} color="white"></AiOutlineMinus>
+          <button className="flex justify-end items-center w-full">
+            <AiOutlineMinus
+              size={24}
+              color="white"
+              className="hover:scale-150 transition-transform ease-in"
+            ></AiOutlineMinus>
           </button>
-        </motion.div>
+        </div>
 
         <div className="font-black justify-center flex flex-col items-center">
           <h1>{amount}</h1>
@@ -86,16 +84,20 @@ export default function MintButton() {
             </p>
           )}
         </div>
-        <motion.div
-          whileHover={{ scale: 1.2 }}
+        <div
           className="flex items-center justify-center"
           onClick={() => setAmount(amount + 1 > 3 ? 3 : amount + 1)}
         >
-          <button className="flex justify-center items-center hover:cursor-pointer">
-            <AiOutlinePlus size={24} color="white"></AiOutlinePlus>
+          <button className="flex justify-start items-start w-full">
+            <AiOutlinePlus
+              size={24}
+              color="white"
+              className="hover:scale-150 transition-transform ease-in"
+            ></AiOutlinePlus>
           </button>
-        </motion.div>
+        </div>
       </div>
+
       {!isMinting && (
         <button
           className="mx-auto flex mt-10 items-center justify-center border border-white px-8 w-48 h-10 rounded-lg hover:bg-white hover:text-black transition-all ease-in"
@@ -112,7 +114,7 @@ export default function MintButton() {
           <span>
             <ImSpinner9 className=" animate-spin transition-all ease-in-out"></ImSpinner9>
           </span>{' '}
-          <p className="px-2">MINTING</p>
+          <span className="px-2">MINTING</span>
         </button>
       )}
     </div>

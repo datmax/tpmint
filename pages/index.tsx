@@ -3,6 +3,8 @@ import { Lora } from 'next/font/google';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import MintSection from '@/components/MintSection';
+import { useAccount, useContractRead } from 'wagmi';
+import nft from '@/contracts/nft';
 const titleAnim = {
   initial: {
     opacity: 0,
@@ -35,6 +37,48 @@ const lora = Lora({
 });
 
 export default function Home() {
+  const { address } = useAccount();
+  const [dataReady, setdataReady] = useState(false);
+  const {
+    data: isWhitelisted,
+    isError: isWhitelistedError,
+    isLoading: isWhitelistedLoading,
+  } = useContractRead({
+    address: nft.address as `0x${string}`,
+    abi: nft.abi,
+    functionName: 'isWhitelisted',
+    args: [address],
+  });
+
+  const {
+    data: wlOnly,
+    isError: wlOnlyError,
+    isLoading: wlOnlyLoading,
+  } = useContractRead({
+    address: nft.address as `0x${string}`,
+    abi: nft.abi,
+    functionName: 'onlyWhitelisted',
+    args: [address],
+  });
+
+  const {
+    data: isPaused,
+    isError: isErrorPaused,
+    isLoading: isPausedLoading,
+  } = useContractRead({
+    address: nft.address as `0x${string}`,
+    abi: nft.abi,
+    functionName: 'paused',
+  });
+
+  useEffect(() => {
+    if (!isPausedLoading && !isWhitelistedLoading && !wlOnlyLoading) {
+      setdataReady(true);
+    } else {
+      setdataReady(false);
+    }
+  }, [isPausedLoading, isWhitelistedLoading, wlOnlyLoading]);
+
   return (
     <main
       className={` min-h-screen  ${lora.className}  text-white bg-main bg-cover bg-black`}
@@ -61,9 +105,22 @@ export default function Home() {
             <h2>EXCLUSIVE BENEFITS & ALPHA.</h2>
             <h2 className="pt-2">MINT OPEN NOW.</h2>
           </div>
-
-          <MintSection></MintSection>
         </motion.div>
+        {dataReady && (
+          <>
+            {!isPaused && (
+              <>
+                {wlOnly && !isWhitelisted && (
+                  <div>Address not in whitelist.</div>
+                )}
+                {wlOnly && isWhitelisted && <MintSection />}
+                {!wlOnly && <MintSection />}
+              </>
+            )}
+            {isPaused && <div>Minting is paused.</div>}
+          </>
+        )}
+        {!dataReady && <div>Loading...</div>}
       </div>
     </main>
   );
