@@ -97,13 +97,14 @@ export default function Home() {
           variants={contentAnim}
           initial="initial"
           animate="animate"
-          className=" pt-20 lg:pt-40 flex items-center justify-center flex-col  text-[#fff5a9]   font-extralight"
+          className=" pt-20 lg:pt-20 flex items-center justify-center flex-col  text-[#fff5a9]   font-extralight"
         >
           <div className="lg:text-3xl justify-center flex flex-col items-center gap-y-2">
             <h2>111 PASSES.</h2>
             <h2>SPECIAL DISCORD COMMUNITY.</h2>
             <h2>EXCLUSIVE BENEFITS & ALPHA.</h2>
-            <h2 className="pt-2">MINT OPEN NOW.</h2>
+            <h2 className="pt-10">MINT COST: 0.169 ETH.</h2>
+            <h2>MAX 4 NFTS PER WALLET.</h2>
           </div>
         </motion.div>
         {dataReady && (
