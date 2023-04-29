@@ -8,6 +8,7 @@ import {
   useContractWrite,
   useAccount,
   useBalance,
+  useWaitForTransaction,
 } from 'wagmi';
 import nft from '@/contracts/nft';
 import MintedModal from './MintedModal';
@@ -18,11 +19,11 @@ export default function MintButton() {
   const { data: balance, isLoading: isBalanceLoading } = useBalance({
     address: address,
   });
+
   const [showModal, setShowModal] = useState(false);
   const [amount, setAmount] = useState(0);
   const [isMinting, setIsMinting] = useState(false);
 
-  //TODO: CHECK COST DECIMALS(CURRENTLY 14)
   const {
     data: cost,
     isError: costError,
@@ -33,27 +34,17 @@ export default function MintButton() {
     functionName: 'cost',
   });
 
-  const mint = async () => {
-    setIsMinting(true);
-    write?.();
-  };
-
   const { config } = usePrepareContractWrite({
     address: nft.address as `0x${string}`,
     abi: nft.abi,
     functionName: 'mint',
     args: [amount],
     overrides: {
-      value: ethers.utils.parseEther((0.169 * amount).toString()),
+      value: ethers.utils.parseEther((cost / Math.pow(10, 18)) * amount + ''),
     },
     enabled: false,
-    onError(error) {
-      console.log('Error while preparing tx: ', error);
-      setIsMinting(false);
-    },
     onSuccess(data) {
       setShowModal(true);
-      setIsMinting(false);
     },
   });
   const {
@@ -62,10 +53,17 @@ export default function MintButton() {
     isSuccess,
     write,
   } = useContractWrite(config);
+  const {
+    data: txData,
+    isError,
+    isLoading,
+  } = useWaitForTransaction({
+    hash: output?.hash,
+  });
 
   return (
     <div>
-      <MintedModal open={showModal} setOpen={setShowModal} />
+      <MintedModal open={txData ? true : false} setOpen={setShowModal} />
       <div className="grid grid-cols-3 justify-center items-center gap-x-10">
         <div
           className="flex items-center justify-center"
@@ -84,13 +82,13 @@ export default function MintButton() {
           <h1>{amount}</h1>
           {!costLoading && (
             <p className=" text-xs pt-4 text-white/50">
-              {(((cost as number) / Math.pow(10, 14)) * amount).toFixed(4)}
+              {((cost as number) / Math.pow(10, 18)) * amount} ETH + fees
             </p>
           )}
         </div>
         <div
           className="flex items-center justify-center"
-          onClick={() => setAmount(amount + 1 > 3 ? 3 : amount + 1)}
+          onClick={() => setAmount(amount + 1 > 4 ? 4 : amount + 1)}
         >
           <button className="flex justify-start items-start w-full">
             <AiOutlinePlus
@@ -102,19 +100,19 @@ export default function MintButton() {
         </div>
       </div>
 
-      {!isMinting && !isBalanceLoading && (
+      {!isLoading && !isBalanceLoading && (
         <button
           disabled={
             (balance?.formatted as unknown as number) < amount * 0.169 ||
             amount === 0
           }
           className="mx-auto flex mt-10 items-center justify-center border border-white px-8 w-48 h-10 rounded-lg hover:bg-white hover:text-black transition-all ease-in"
-          onClick={() => mint()}
+          onClick={() => write?.()}
         >
           MINT
         </button>
       )}
-      {isMinting && (
+      {isLoading && (
         <button
           disabled
           className="mx-auto flex mt-10 items-center  justify-center border border-white bg-black text-white px-8 w-48 h-10 rounded-lg"
