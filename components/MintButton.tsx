@@ -56,10 +56,7 @@ export default function MintButton() {
     overrides: {
       value: ethers.utils.parseEther(parsedCost * amount + ''),
     },
-    enabled: false,
-    onSuccess(data) {
-      setShowModal(true);
-    },
+    enabled: true,
   });
   const {
     data: output,

@@ -58,7 +58,6 @@ export default function Home() {
     address: nft.address as `0x${string}`,
     abi: nft.abi,
     functionName: 'onlyWhitelisted',
-    args: [address],
   });
 
   const {
@@ -70,6 +69,8 @@ export default function Home() {
     abi: nft.abi,
     functionName: 'paused',
   });
+
+  console.log(isWhitelisted);
 
   useEffect(() => {
     if (!isPausedLoading && !isWhitelistedLoading && !wlOnlyLoading) {
@@ -112,7 +113,7 @@ export default function Home() {
             {!isPaused && (
               <>
                 {wlOnly && !isWhitelisted && (
-                  <div>Address not in whitelist.</div>
+                  <div className="pt-20">Address not in whitelist.</div>
                 )}
                 {wlOnly && isWhitelisted && <MintSection />}
                 {!wlOnly && <MintSection />}
