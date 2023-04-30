@@ -1,7 +1,7 @@
 import { Fragment, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { CheckIcon } from '@heroicons/react/24/outline';
-
+import Link from 'next/link';
 export default function MintedModal({ open, setOpen }: any) {
   const link =
     'https://ipfs.io/ipfs/QmQ5hdtibJzY71xcEQMRuL1yoi25bhdzopYiaTQWtBbQYV/TokenProphetAlpha.mp4';
@@ -46,7 +46,11 @@ export default function MintedModal({ open, setOpen }: any) {
                     </Dialog.Title>
                     <div className="mt-2">
                       <p className="text-sm text-gray-500">
-                        Checkout your NFT on Opensea.
+                        Checkout your NFT on{' '}
+                        <Link href="https://opensea.io/collection/token-prophets-alpha">
+                          Opensea
+                        </Link>
+                        .
                       </p>
                     </div>
                   </div>
