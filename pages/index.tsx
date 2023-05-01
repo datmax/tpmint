@@ -61,6 +61,7 @@ export default function Home() {
     address: nft.address as `0x${string}`,
     abi: nft.abi,
     functionName: 'isWhitelisted',
+    watch: true,
     args: [address],
   });
 
