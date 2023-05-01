@@ -201,10 +201,10 @@ export default function Home() {
           <div className="pt-20">
             {!isPaused && (
               <>
-                {wlOnly && isWhitelisted && (
+                {wlOnly && !isWhitelisted && (
                   <div className=" text-3xl">Address not in whitelist.</div>
                 )}
-                {wlOnly && !isWhitelisted && (
+                {wlOnly && isWhitelisted && (
                   <>
                     <div className="text-center text-3xl">
                       Passes minted: {(supply as number) / 1}/111
