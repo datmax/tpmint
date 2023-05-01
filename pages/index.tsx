@@ -61,14 +61,14 @@ export default function Home() {
     address: nft.address as `0x${string}`,
     abi: nft.abi,
     functionName: 'isWhitelisted',
-    watch: true,
-    args: [address],
+    args: [address as `0x${string}`],
   });
 
   const {
     data: wlOnly,
     isError: wlOnlyError,
     isLoading: wlOnlyLoading,
+    refetch: wlOnlyRefetch,
   } = useContractRead({
     address: nft.address as `0x${string}`,
     abi: nft.abi,
