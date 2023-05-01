@@ -247,6 +247,25 @@ export default function Home() {
         {!dataReady && (
           <div className=" animate-pulse text-center">Loading...</div>
         )}
+        <div className=" text-center w-full mt-20 text-xs px-4 lg:px-20 text-gray-500">
+          DISCLAIMER: ALL materials in this course are not to be taken as
+          financial advice and should not be regarded as investment advice. We
+          are not financial or investment advisors or professionals. We are not
+          liable for any losses incurred from your trading as you are fully
+          responsible for your own trades. This is an educational program
+          teaching you about Cryptocurrency. We NEVER guarantee profits and past
+          performance and returns have are no indication of future performance
+          and returns. Cryptocurrency Investing involves substantial risk and is
+          not suitable for every investor. The valuation of the market may
+          fluctuate, and, as a result, clients may lose more than their original
+          investment. We make no determination of the appropriateness of this
+          investment for your individual financial situation. Before we get
+          started: This course is still UNDER CONSTRUCTION! New content and
+          materials will be added in the coming weeks and we encourage you to
+          periodically review the site for new material. You are 100%
+          responsible for your own financial decisions and actions and we assume
+          no liability for any losses or changes in value.
+        </div>
       </div>
     </main>
   );
