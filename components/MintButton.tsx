@@ -80,8 +80,9 @@ export default function MintButton() {
   }, [txData, alreadySet]);
 
   return (
-    <div>
+    <div className="w-full">
       <MintedModal open={showModal} setOpen={setShowModal} />
+
       <div className="grid grid-cols-3 justify-center items-center gap-x-10">
         <div
           className="flex items-center justify-center"
