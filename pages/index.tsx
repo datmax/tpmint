@@ -12,7 +12,20 @@ const titleAnim = {
   animate: {
     opacity: 1,
     transition: {
-      duration: 1,
+      duration: 1.5,
+      ease: 'easeIn',
+    },
+  },
+};
+
+const h2anim = {
+  initial: {
+    opacity: 0,
+  },
+  animate: {
+    opacity: 1,
+    transition: {
+      duration: 2,
       ease: 'easeIn',
     },
   },
@@ -93,7 +106,14 @@ export default function Home() {
         >
           TOKEN PROPHET ALPHA PASS
         </motion.h1>
-
+        <motion.h2
+          variants={h2anim}
+          initial="initial"
+          animate="animate"
+          className="text-gray-300 pt-4"
+        >
+          The eco system that keeps giving.
+        </motion.h2>
         <motion.div
           variants={contentAnim}
           initial="initial"
