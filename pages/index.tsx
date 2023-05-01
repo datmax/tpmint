@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import MintSection from '@/components/MintSection';
 import { useAccount, useContractRead } from 'wagmi';
 import nft from '@/contracts/nft';
+import dynamic from 'next/dynamic';
 const titleAnim = {
   initial: {
     opacity: 0,
@@ -49,7 +50,7 @@ const lora = Lora({
   subsets: ['latin'],
 });
 
-export default function Home() {
+export function Home() {
   const [bodyOp, setBodyOp] = useState(0);
   const { address } = useAccount();
   const [dataReady, setdataReady] = useState(false);
@@ -273,3 +274,7 @@ export default function Home() {
     </main>
   );
 }
+
+export default dynamic(() => Promise.resolve(Home), {
+  ssr: false,
+});
