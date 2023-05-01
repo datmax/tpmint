@@ -120,16 +120,23 @@ export default function MintButton() {
       </div>
 
       {!isLoading && !isBalanceLoading && (
-        <button
-          disabled={
-            (balance?.formatted as unknown as number) < amount * parsedCost ||
-            amount === 0
-          }
-          className="mx-auto flex mt-10 items-center justify-center border border-white px-8 w-48 h-10 rounded-lg hover:bg-white hover:text-black transition-all ease-in"
-          onClick={() => write?.()}
-        >
-          MINT
-        </button>
+        <>
+          <button
+            disabled={
+              (balance?.formatted as unknown as number) < amount * parsedCost ||
+              amount === 0
+            }
+            className="mx-auto flex mt-10 items-center justify-center border border-white px-8 w-48 h-10 rounded-lg hover:bg-white hover:text-black transition-all ease-in"
+            onClick={() => write?.()}
+          >
+            MINT
+          </button>
+          {(balance?.formatted as unknown as number) < amount * parsedCost && (
+            <div className="text-center mt-2 text-yellow-500 text-xs">
+              Not enough funds in your wallet.
+            </div>
+          )}
+        </>
       )}
       {isLoading && (
         <button

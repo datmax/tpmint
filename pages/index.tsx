@@ -236,7 +236,9 @@ export default function Home() {
             {(isPaused as boolean) && <div>Minting is paused.</div>}
           </div>
         )}
-        {!dataReady && <div className=" animate-pulse">Loading...</div>}
+        {!dataReady && (
+          <div className=" animate-pulse text-center">Loading...</div>
+        )}
       </div>
     </main>
   );
