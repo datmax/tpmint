@@ -10,9 +10,9 @@ export default function Document() {
           property="og:description"
           content="Mint your TP Alpha pass and enter the exclusive Token Prophet community."
         />
-        <meta property="og:image" content="'/tplogo.jpg';" />
+        <meta property="og:image" content="'tplogo.jpg';" />
       </Head>
-      <body>
+      <body className=" bg-gradient-to-b from-black to-red-900">
         <Main />
         <NextScript />
       </body>

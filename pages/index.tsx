@@ -40,7 +40,7 @@ const contentAnim = {
     opacity: [0, 1],
     y: [10, 0],
     transition: {
-      duration: 1,
+      duration: 3,
     },
   },
 };
@@ -50,6 +50,7 @@ const lora = Lora({
 });
 
 export default function Home() {
+  const [bodyOp, setBodyOp] = useState(0);
   const { address } = useAccount();
   const [dataReady, setdataReady] = useState(false);
   const {
@@ -93,8 +94,6 @@ export default function Home() {
     functionName: 'totalSupply',
   });
 
-  console.log(isWhitelisted);
-
   useEffect(() => {
     if (
       !isPausedLoading &&
@@ -108,9 +107,16 @@ export default function Home() {
     }
   }, [isPausedLoading, isWhitelistedLoading, wlOnlyLoading, supplyLoading]);
 
+  //set body opacity to 1 after 0.2s
+  useEffect(() => {
+    setTimeout(() => {
+      setBodyOp(100);
+    }, 400);
+  }, []);
+
   return (
     <main
-      className={` min-h-screen  ${lora.className}  text-white  relative  `}
+      className={` min-h-screen  ${lora.className}  text-white  relative  opacity-${bodyOp} transition-all ease-in  `}
     >
       <div className="absolute z-10 top-1 left-1">
         <Image
@@ -190,19 +196,22 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="h-screen bg-gradient-to-b from-red-950 to-black">
+      <div className="pb-40 bg-gradient-to-b from-red-950 to-black">
         <motion.div
           variants={contentAnim}
           initial="initial"
           animate="animate"
-          className=" pt-20 lg:pt-20 flex items-center justify-center flex-col  text-[#fff5a9]   font-extralight"
+          className=" flex items-center justify-center flex-col  text-[#fff5a9]   font-extralight"
         ></motion.div>
         {dataReady && (
-          <div className="pt-20">
+          <div className="">
+            <h1 className="lg:text-6xl text-center lg:py-20 py-10">MINT</h1>
             {!isPaused && (
               <>
                 {wlOnly && !isWhitelisted && (
-                  <div className=" text-3xl">Address not in whitelist.</div>
+                  <div className=" lg:text-2xl text-xl text-center">
+                    Address not in whitelist.
+                  </div>
                 )}
                 {wlOnly && isWhitelisted && (
                   <>
@@ -217,7 +226,7 @@ export default function Home() {
                 {!wlOnly && (
                   <>
                     <div>Passes minted: {(supply as number) / 1}/111</div>
-                    <div className="lg:w-1/2">
+                    <div className="lg:w-1/2 mx-auto">
                       <MintSection />
                     </div>
                   </>
@@ -227,7 +236,7 @@ export default function Home() {
             {(isPaused as boolean) && <div>Minting is paused.</div>}
           </div>
         )}
-        {!dataReady && <div className="pt-20 animate-pulse">Loading...</div>}
+        {!dataReady && <div className=" animate-pulse">Loading...</div>}
       </div>
     </main>
   );
