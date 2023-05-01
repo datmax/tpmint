@@ -5,12 +5,12 @@ export default function Document() {
     <Html lang="en">
       <Head title="Token Prophet alpha pass.">
         <meta name="description" content="Mint your TP Alpha pass." />
-        <meta property="og:title" content="TokenProphet Alpha pass | mint" />
-        <meta property="og:description" content="Mint your TP Alpha pass." />
+        <meta property="og:title" content="Token Prophet Alpha pass | mint" />
         <meta
-          property="og:image"
-          content="'https://ipfs.io/ipfs/QmQ5hdtibJzY71xcEQMRuL1yoi25bhdzopYiaTQWtBbQYV/TokenProphetAlpha.mp4';"
+          property="og:description"
+          content="Mint your TP Alpha pass and enter the exclusive Token Prophet community."
         />
+        <meta property="og:image" content="'/tplogo.jpg';" />
       </Head>
       <body>
         <Main />
