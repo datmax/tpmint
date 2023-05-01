@@ -128,6 +128,22 @@ export default function Home() {
           height={1000}
         ></Image>
       </div>
+      <div className="absolute z-10 bottom-1 left-1 -rotate-90">
+        <Image
+          src="/decor.png"
+          width={100}
+          alt="decorative element"
+          height={1000}
+        ></Image>
+      </div>
+      <div className="absolute z-10 bottom-1 right-1 -rotate-180">
+        <Image
+          src="/decor.png"
+          width={100}
+          alt="decorative element"
+          height={1000}
+        ></Image>
+      </div>
 
       <div className="flex min-h-screen w-full flex-col items-center backdrop-blur-sm  p-4 lg:px-24 backdrop-brightness-[0.6] bg-gradient-to-b from-black to-red-950 ">
         <Image
