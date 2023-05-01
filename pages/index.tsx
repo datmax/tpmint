@@ -173,7 +173,7 @@ export default function Home() {
           variants={h2anim}
           initial="initial"
           animate="animate"
-          className="text-gray-300 pt-4"
+          className="text-yellow-500 pt-4"
         >
           The eco system that keeps giving.
         </motion.h2>
@@ -195,7 +195,15 @@ export default function Home() {
             />
           </div>
         </div>
+        <Image
+          src="/separator.png"
+          width={200}
+          height={200}
+          alt="separator"
+          className="lg:mt-20"
+        ></Image>
       </div>
+
       <div className="pb-40 bg-gradient-to-b from-red-950 to-black">
         <motion.div
           variants={contentAnim}
