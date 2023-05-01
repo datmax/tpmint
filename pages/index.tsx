@@ -212,11 +212,12 @@ export default function Home() {
           animate="animate"
           className=" flex items-center justify-center flex-col  text-[#fff5a9]   font-extralight"
         ></motion.div>
+        <h1 className="lg:text-6xl text-center lg:py-20 py-10">MINT</h1>
+
         {!address && <MintSection />}
 
         {address && dataReady && (
           <div className="">
-            <h1 className="lg:text-6xl text-center lg:py-20 py-10">MINT</h1>
             {!isPaused && (
               <>
                 {wlOnly && !isWhitelisted && (
@@ -247,7 +248,7 @@ export default function Home() {
             {(isPaused as boolean) && <div>Minting is paused.</div>}
           </div>
         )}
-        {!dataReady && (
+        {!dataReady && address && (
           <div className=" animate-pulse text-center">Loading...</div>
         )}
         <div className=" text-center w-full mt-20 text-xs px-4 lg:px-20 text-gray-500">

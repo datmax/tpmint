@@ -49,7 +49,7 @@ export default function MintSection() {
         </>
       )}
       {!address && (
-        <div className="w-full flex justify-center pt-40">
+        <div className="w-full flex justify-center pt-20">
           <ConnectButton />
         </div>
       )}
