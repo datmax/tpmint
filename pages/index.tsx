@@ -108,7 +108,6 @@ export default function Home() {
     }
   }, [isPausedLoading, isWhitelistedLoading, wlOnlyLoading, supplyLoading]);
 
-  console.log(isWhitelisted, wlOnly, address);
   //set body opacity to 1 after 0.2s
   useEffect(() => {
     setTimeout(() => {
