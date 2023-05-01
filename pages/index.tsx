@@ -120,6 +120,7 @@ export default function Home() {
     <main
       className={` min-h-screen  ${lora.className}  text-white  relative  opacity-${bodyOp} transition-all ease-in  `}
     >
+      {address}
       <div className="absolute z-10 top-1 left-1">
         <Image
           src="/decor.png"
