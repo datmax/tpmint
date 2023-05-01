@@ -12,7 +12,7 @@ export default function MintSection() {
   const { data: balance, isLoading: isBalanceLoading } = useBalance({
     address: address,
   });
-
+  console.log(address);
   const { chains, error, isLoading, pendingChainId, switchNetwork } =
     useSwitchNetwork();
   const { chain } = useNetwork();

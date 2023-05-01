@@ -7,6 +7,7 @@ import { mainnet, polygon, optimism, arbitrum } from 'wagmi/chains';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 import { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
 
 const { chains, provider } = configureChains(
   [mainnet],
@@ -23,25 +24,22 @@ const { connectors } = getDefaultWallets({
 });
 
 const wagmiClient = createClient({
-  autoConnect: true, // we don't want to autoconnect to wallet
+  autoConnect: false, // we don't want to autoconnect to wallet
   connectors,
   provider,
 });
 
 // NOTE: This branch uses wagmi.sh(https://wagmi.sh/) to connect to providers.
-export default function App({ Component, pageProps }: AppProps) {
-  const [ok, setOk] = useState(false);
-  useEffect(() => {
-    setOk(true);
-  }, []);
-
-  if (ok)
-    return (
-      <WagmiConfig client={wagmiClient}>
-        <RainbowKitProvider chains={chains}>
-          <Component {...pageProps} />
-        </RainbowKitProvider>
-      </WagmiConfig>
-    );
-  else return <div></div>;
+export function App({ Component, pageProps }: AppProps) {
+  return (
+    <WagmiConfig client={wagmiClient}>
+      <RainbowKitProvider chains={chains}>
+        <Component {...pageProps} />
+      </RainbowKitProvider>
+    </WagmiConfig>
+  );
 }
+
+export default dynamic(() => Promise.resolve(App), {
+  ssr: false,
+});

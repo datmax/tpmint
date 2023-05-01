@@ -5,7 +5,6 @@ import { useState, useEffect } from 'react';
 import MintSection from '@/components/MintSection';
 import { useAccount, useContractRead } from 'wagmi';
 import nft from '@/contracts/nft';
-import dynamic from 'next/dynamic';
 const titleAnim = {
   initial: {
     opacity: 0,
@@ -50,7 +49,7 @@ const lora = Lora({
   subsets: ['latin'],
 });
 
-export function Home() {
+export default function Home() {
   const [bodyOp, setBodyOp] = useState(0);
   const { address } = useAccount();
   const [dataReady, setdataReady] = useState(false);
@@ -121,7 +120,6 @@ export function Home() {
     <main
       className={` min-h-screen  ${lora.className}  text-white  relative  opacity-${bodyOp} transition-all ease-in  `}
     >
-      {address}
       <div className="absolute z-10 top-1 left-1">
         <Image
           src="/decor.png"
@@ -215,7 +213,9 @@ export function Home() {
           animate="animate"
           className=" flex items-center justify-center flex-col  text-[#fff5a9]   font-extralight"
         ></motion.div>
-        {dataReady && (
+        {!address && <MintSection />}
+
+        {address && dataReady && (
           <div className="">
             <h1 className="lg:text-6xl text-center lg:py-20 py-10">MINT</h1>
             {!isPaused && (
@@ -274,7 +274,3 @@ export function Home() {
     </main>
   );
 }
-
-export default dynamic(() => Promise.resolve(Home), {
-  ssr: false,
-});
