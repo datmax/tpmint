@@ -117,7 +117,7 @@ export default function Home() {
 
   return (
     <main
-      className={` min-h-screen  ${lora.className}  text-white  relative  opacity-${bodyOp} transition-all ease-in  `}
+      className={` min-h-screen  ${lora.className} overflow-hidden  text-white  relative  opacity-${bodyOp} transition-all ease-in  `}
     >
       <div className="absolute z-10 top-1 left-1">
         <Image
