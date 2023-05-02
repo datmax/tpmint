@@ -23,18 +23,6 @@ export default function MintSection() {
         <>
           {chain?.id == 1 && (
             <div className="flex flex-col items-center gap-y-4 pt-10">
-              <p className="text-gray-400 pb-20">
-                Connected with:{' '}
-                {address.slice(0, 4) +
-                  '...' +
-                  address.slice(address.length - 4, address.length)}{' '}
-                |{' '}
-                {balance?.formatted.slice(
-                  0,
-                  balance.formatted.indexOf('.') + 4
-                )}{' '}
-                ETH
-              </p>
               <MintButton></MintButton>
             </div>
           )}

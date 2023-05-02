@@ -3,8 +3,9 @@ import { Lora } from 'next/font/google';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import MintSection from '@/components/MintSection';
-import { useAccount, useContractRead } from 'wagmi';
+import { useAccount, useContractRead, useBalance } from 'wagmi';
 import nft from '@/contracts/nft';
+
 const titleAnim = {
   initial: {
     opacity: 0,
@@ -62,6 +63,10 @@ export default function Home() {
     abi: nft.abi,
     functionName: 'isWhitelisted',
     args: [address as `0x${string}`],
+  });
+
+  const { data: balance, isLoading: isBalanceLoading } = useBalance({
+    address: address,
   });
 
   const {
@@ -213,11 +218,25 @@ export default function Home() {
           className=" flex items-center justify-center flex-col  text-[#fff5a9]   font-extralight"
         ></motion.div>
         <h1 className="lg:text-6xl text-center lg:py-20 py-10">MINT</h1>
+        {!supplyLoading && (
+          <div className="text-center text-3xl">
+            Passes minted: {(supply as number) / 1}/111
+          </div>
+        )}
 
         {!address && <MintSection />}
 
         {address && dataReady && (
           <div className="">
+            <p className="text-gray-400 pb-20 text-center">
+              Connected with:{' '}
+              {address.slice(0, 4) +
+                '...' +
+                address.slice(address.length - 4, address.length)}{' '}
+              |{' '}
+              {balance?.formatted.slice(0, balance.formatted.indexOf('.') + 4)}{' '}
+              ETH
+            </p>
             {!isPaused && (
               <>
                 {wlOnly && !isWhitelisted && (
@@ -227,9 +246,6 @@ export default function Home() {
                 )}
                 {wlOnly && isWhitelisted && (
                   <>
-                    <div className="text-center text-3xl">
-                      Passes minted: {(supply as number) / 1}/111
-                    </div>
                     <div className="lg:w-1/2 flex  mx-auto">
                       <MintSection />
                     </div>
