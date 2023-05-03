@@ -253,7 +253,6 @@ export default function Home() {
                 )}
                 {!wlOnly && (
                   <>
-                    <div>Passes minted: {(supply as number) / 1}/111</div>
                     <div className="lg:w-1/2 mx-auto">
                       <MintSection />
                     </div>
